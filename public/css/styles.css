@@ -1,0 +1,25 @@
+body {
+    background-color: #f4f6f8;
+    padding: 10px 200px;
+}
+
+.search {
+    background-color: white;
+    border: solid 1px grey;
+    padding: 20px;
+    margin: auto;
+}
+
+.search label {
+    font-weight: bold;
+}
+
+.search input{
+    width: 99%;
+    padding: 3px;
+    margin-top: 5px;
+}
+
+.search input:focus {
+    outline: none;
+}
