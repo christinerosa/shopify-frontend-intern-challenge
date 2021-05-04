@@ -55,7 +55,7 @@ const App = () => {
               <p>No Results Found.</p> :
               searchResults.map((item, index) => {
                 return (
-                  <div className="movie-details">
+                  <div className="movie-details" key={index}>
                     <img src={item.Poster} alt=''/>
                     <div>
                         <h4>{item.Title}</h4>
@@ -71,7 +71,7 @@ const App = () => {
             {
               nominations.map((item, index) => {
                 return (
-                  <div className="movie-details">
+                  <div className="movie-details" key={index}>
                     <img src={item.Poster} alt=''/>
                     <div>
                         <h4>{item.Title}</h4>

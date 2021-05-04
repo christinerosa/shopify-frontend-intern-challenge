@@ -34,6 +34,7 @@ body {
 
 .movie-details {
     display: flex;
+    max-width: 50%;
 }
 
 .movie-details img {
