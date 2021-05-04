@@ -12,14 +12,30 @@ body {
 
 .search label {
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .search input{
     width: 99%;
     padding: 3px;
-    margin-top: 5px;
 }
 
 .search input:focus {
     outline: none;
+}
+
+.loading-spinner {
+    text-align: center;
+}
+
+.voting-section {
+    display: flex;
+}
+
+.movie-details {
+    display: flex;
+}
+
+.movie-details img {
+    width: 10rem;
 }

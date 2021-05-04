@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
 
-function App() {
+const App = () => {
 
   // States
+  const [isLoading, setIsLoading] = useState(undefined);
   const [searchResults, setSearchResults] = useState([]);
+  const [nominations, setNominations] = useState([]);
 
 
   // API Requests
   const getData = async (searchValue) => {
-    console.log(searchValue);
+    setIsLoading(true);
     let data = await axios.get(`http://www.omdbapi.com/?apikey=84d86ab5&type=movie&s=${searchValue}`);
     setSearchResults(data.data.Search);
-    console.log(searchResults);
+    setIsLoading(false);
   }
 
   // Handles
@@ -22,28 +25,67 @@ function App() {
     }
   }
 
+  const handleNomination = (movie) => {
+      setNominations([...nominations, movie]);
+  }
+
+  const handleRemoveNomination = (movie) => {
+    let updatedNoms = nominations.filter((t) => t !== movie);
+    setNominations(updatedNoms);
+  }
+
   return (
     <div>
       <h1>The Shoppies</h1>
-      <div className='search'>
+      <div className="search">
         <label>Movie Title</label><br></br>
         <input type="text" onKeyDown={handleSearch}/>
       </div>
-      <div>
-        {
-          !searchResults ? 
-          <p>No Results Found.</p> :
-          searchResults.map((item, index) => {
-            return (
-                <div key={index}>
-                  <img src={item.Poster} alt=''/>
-                  <h2>{item.Title}</h2>
-                  <h4>{item.Year}</h4>
-                </div>
-              )
-          })
-        }
-      </div>
+      {
+        isLoading ? 
+        <div className="loading-spinner">
+          <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+          </Spinner> 
+        </div> : (
+          <div className="voting-section">
+            <div className="movie-results">
+            {
+              !searchResults ? 
+              <p>No Results Found.</p> :
+              searchResults.map((item, index) => {
+                return (
+                  <div className="movie-details">
+                    <img src={item.Poster} alt=''/>
+                    <div>
+                        <h4>{item.Title}</h4>
+                        <h6>{item.Year}</h6>
+                        <button onClick={() => handleNomination(item)}>Nominate</button>
+                    </div>
+                  </div>
+                )
+              })
+            }
+            </div>
+            <div className="nominations">
+            {
+              nominations.map((item, index) => {
+                return (
+                  <div className="movie-details">
+                    <img src={item.Poster} alt=''/>
+                    <div>
+                        <h4>{item.Title}</h4>
+                        <h6>{item.Year}</h6>
+                        <button onClick={() => handleRemoveNomination(item)}>Remove</button>
+                    </div>
+                  </div>
+                )
+              })  
+            }
+            </div>
+          </div>
+        )
+      }
     </div>
     
   );
