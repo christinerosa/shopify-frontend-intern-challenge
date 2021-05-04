@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
+import MovieCard from './components/MovieCard'
 
 const App = () => {
 
@@ -8,6 +9,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(undefined);
   const [searchResults, setSearchResults] = useState([]);
   const [nominations, setNominations] = useState([]);
+  const [nominationCount, setNominationCount] = useState(0);
 
 
   // API Requests
@@ -27,11 +29,26 @@ const App = () => {
 
   const handleNomination = (movie) => {
       setNominations([...nominations, movie]);
+      setNominationCount(nominationCount + 1);
   }
 
   const handleRemoveNomination = (movie) => {
     let updatedNoms = nominations.filter((t) => t !== movie);
     setNominations(updatedNoms);
+    setNominationCount(nominationCount - 1);
+  }
+
+  const disbaleNomination = (id) => {
+    if (nominations.length === 5) {
+      return true;
+    } else {
+      let nominatedItem = nominations.find((i) => i.imdbID === id);
+      if(nominatedItem) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   return (
@@ -41,6 +58,11 @@ const App = () => {
         <label>Movie Title</label><br></br>
         <input type="text" onKeyDown={handleSearch}/>
       </div>
+      {
+        nominations.length === 5 ? 
+        <h2>Maximum nominations reached!</h2> 
+        : <h2>{nominationCount} movies nominated. {5 - nominationCount} nominations left.</h2>
+      }
       {
         isLoading ? 
         <div className="loading-spinner">
@@ -53,32 +75,34 @@ const App = () => {
             {
               !searchResults ? 
               <p>No Results Found.</p> :
-              searchResults.map((item, index) => {
+              searchResults.map((item) => {
                 return (
-                  <div className="movie-details" key={index}>
-                    <img src={item.Poster} alt=''/>
-                    <div>
-                        <h4>{item.Title}</h4>
-                        <h6>{item.Year}</h6>
-                        <button onClick={() => handleNomination(item)}>Nominate</button>
-                    </div>
-                  </div>
+                  <MovieCard 
+                    key={item.imdbID}
+                    poster={item.Poster}
+                    title={item.Title}
+                    year={item.Year}
+                    type='nominate'
+                    btnDisabled={disbaleNomination(item.imdbID)}
+                    handleClick={() => handleNomination(item)}
+                  />
                 )
               })
             }
             </div>
             <div className="nominations">
             {
-              nominations.map((item, index) => {
+              nominations.map((item) => {
                 return (
-                  <div className="movie-details" key={index}>
-                    <img src={item.Poster} alt=''/>
-                    <div>
-                        <h4>{item.Title}</h4>
-                        <h6>{item.Year}</h6>
-                        <button onClick={() => handleRemoveNomination(item)}>Remove</button>
-                    </div>
-                  </div>
+                  <MovieCard
+                    key={item.imdbID}
+                    poster={item.Poster}
+                    title={item.Title}
+                    year={item.Year}
+                    type='remove'
+                    btnDisabled={false}
+                    handleClick={() => handleRemoveNomination(item)}
+                  />
                 )
               })  
             }
