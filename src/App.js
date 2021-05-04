@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import MovieCard from './components/MovieCard'
@@ -9,8 +9,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(undefined);
   const [searchResults, setSearchResults] = useState([]);
   const [nominations, setNominations] = useState([]);
-  const [nominationCount, setNominationCount] = useState(0);
-
 
   // API Requests
   const getData = async (searchValue) => {
@@ -28,14 +26,15 @@ const App = () => {
   }
 
   const handleNomination = (movie) => {
-      setNominations([...nominations, movie]);
-      setNominationCount(nominationCount + 1);
+      let nominationList = [...nominations, movie];
+      setNominations(nominationList);
+      localStorage.setItem('nominations', JSON.stringify(nominationList))
   }
 
   const handleRemoveNomination = (movie) => {
     let updatedNoms = nominations.filter((t) => t !== movie);
     setNominations(updatedNoms);
-    setNominationCount(nominationCount - 1);
+    localStorage.setItem('nominations', JSON.stringify(updatedNoms))
   }
 
   const disbaleNomination = (id) => {
@@ -51,6 +50,11 @@ const App = () => {
     }
   }
 
+  useEffect(() => {
+    let currentNominations = JSON.parse(localStorage.getItem('nominations'));
+    setNominations(currentNominations);
+  }, [])
+
   return (
     <div>
       <h1>The Shoppies</h1>
@@ -61,7 +65,7 @@ const App = () => {
       {
         nominations.length === 5 ? 
         <h2>Maximum nominations reached!</h2> 
-        : <h2>{nominationCount} movies nominated. {5 - nominationCount} nominations left.</h2>
+        : <h2>{nominations.length} movies nominated. {5 - nominations.length} nominations left.</h2>
       }
       {
         isLoading ? 
