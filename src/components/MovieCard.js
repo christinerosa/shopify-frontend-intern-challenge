@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const MovieCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
     return (
@@ -19,6 +20,14 @@ const MovieCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
             </div>
         </div>
     )
+}
+
+
+MovieCard.propTypes = {
+    poster: PropTypes.string,
+    title: PropTypes.string,
+    year: PropTypes.string,
+    handleClick: PropTypes.func
 }
 
 export default MovieCard;
