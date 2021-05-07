@@ -1,23 +1,26 @@
 body {
-    background-color: #f4f6f8;
-    padding: 10px 200px;
+    background-color: #202124;
+    padding: 50px 100px;
+    color: white;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h1, h4, h6 {
+    text-align: center;
 }
 
 .search {
-    background-color: white;
-    border: solid 1px grey;
-    padding: 20px;
-    margin: auto;
-}
-
-.search label {
-    font-weight: bold;
-    margin-bottom: 5px;
+    text-align: center;
 }
 
 .search input{
-    width: 99%;
+    min-width: 60%;
     padding: 3px;
+    border-radius: 0.25rem;
+    margin-bottom: 20px;
 }
 
 .search input:focus {
@@ -32,11 +35,68 @@ body {
     display: flex;
 }
 
+.list {
+    flex-basis: 50%;
+}
+
+.results {
+    padding-right: 50px;
+}
+
+.nominations {
+    padding-left: 50px;
+}
+
 .movie-details {
     display: flex;
-    max-width: 50%;
+    max-width: 50vw;
+    background-color: #031854;
+    margin-bottom: 10px;
 }
 
 .movie-details img {
     width: 10rem;
+}
+
+.movie-details h4, .movie-details h6 {
+    text-align: left;
+}
+
+.movie-details div {
+    margin: auto auto auto 10px;
+}
+
+.nominate-btn, .remove-btn {
+    border: none;
+    border-radius: 0.2rem;
+    padding: 5px;
+    width: 150px;
+}
+
+.nominate-btn {
+    background-color: greenyellow;
+    color: black;
+}
+
+.remove-btn {
+    background-color: red;
+    color: white;
+}
+
+.nominate-btn:hover, .nominate-btn:disabled {
+    background-color: green;
+    color: black;
+}
+
+.remove-btn:hover {
+    background-color: grey;
+    color: black;
+}
+
+.banner {
+    background-color: #202124;
+    padding: 5px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }

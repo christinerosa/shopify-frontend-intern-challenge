@@ -1,42 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
-import MovieCard from './components/MovieCard'
+import MovieCard from './components/MovieCard';
+require('dotenv').config();
 
 const App = () => {
 
-  // States
+  /****************** States ******************/ 
   const [isLoading, setIsLoading] = useState(undefined);
   const [searchResults, setSearchResults] = useState([]);
   const [nominations, setNominations] = useState([]);
 
-  // API Requests
+  /*************** API Request ***************/
   const getData = async (searchValue) => {
     setIsLoading(true);
-    let data = await axios.get(`http://www.omdbapi.com/?apikey=84d86ab5&type=movie&s=${searchValue}`);
+    let data = await axios.get(`http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&type=movie&s=${searchValue}`);
     setSearchResults(data.data.Search);
     setIsLoading(false);
   }
 
-  // Handles
+  /****************** Actions ******************/ 
+  
+  // Passes search value into getData function when user hits "Enter" key.
   const handleSearch = (e) => {
     if (e.key === 'Enter') {
       getData(e.target.value);
     }
   }
 
+  /*
+   * Appends selected movie to nominations array and stores current 
+   * nomination list in local storage.
+   */
   const handleNomination = (movie) => {
       let nominationList = [...nominations, movie];
       setNominations(nominationList);
       localStorage.setItem('nominations', JSON.stringify(nominationList))
   }
 
+  /* 
+   * Filters through the nomination array, removes the selected movie, 
+   * updates the array, and stores it in local storage.
+   */
   const handleRemoveNomination = (movie) => {
     let updatedNoms = nominations.filter((t) => t !== movie);
     setNominations(updatedNoms);
     localStorage.setItem('nominations', JSON.stringify(updatedNoms))
   }
 
+  /*
+   * Disables nomination button after selected and disables all nominations buttons when 
+   * the maximum number of nominations is reached.
+   */
   const disbaleNomination = (id) => {
     if (nominations.length === 5) {
       return true;
@@ -50,6 +65,7 @@ const App = () => {
     }
   }
 
+  // Loads local storage into nominations array
   useEffect(() => {
     let currentNominations = JSON.parse(localStorage.getItem('nominations'));
     setNominations(currentNominations);
@@ -59,15 +75,18 @@ const App = () => {
     <div>
       <h1>The Shoppies</h1>
       <div className="search">
-        <label>Movie Title</label><br></br>
-        <input type="text" onKeyDown={handleSearch}/>
+        <input type="text" placeholder="Search Movies" onKeyDown={handleSearch}/>
       </div>
-      {
+      <div className="banner">
+      { // Keeps track of nomination count. 
         nominations.length === 5 ? 
-        <h2>Maximum nominations reached!</h2> 
-        : <h2>{nominations.length} movies nominated. {5 - nominations.length} nominations left.</h2>
+        <h4>Maximum nominations reached!</h4> 
+        : nominations.length === 1 ? <h4>{nominations.length} movie nominated. {5 - nominations.length} nominations left.</h4>
+        : (5 - nominations.length) === 1 ? <h4>{nominations.length} movies nominated. {5 - nominations.length} nomination left.</h4> 
+        : <h4>{nominations.length} movies nominated. {5 - nominations.length} nominations left.</h4> 
       }
-      {
+      </div>
+      { // Displays spinner while waiting for data to load, otherwise, data is displayed
         isLoading ? 
         <div className="loading-spinner">
           <Spinner animation="border" role="status">
@@ -75,11 +94,14 @@ const App = () => {
           </Spinner> 
         </div> : (
           <div className="voting-section">
-            <div className="movie-results">
+            <div className="list results">
+            { // Displays number of search results (if any)
+              searchResults && searchResults.length > 0 ? <h6>{searchResults.length} Search Results</h6> : null 
+            }
             {
               !searchResults ? 
               <p>No Results Found.</p> :
-              searchResults.map((item) => {
+              searchResults.map((item) => { // Maps through results to dynamically load MovieCard component for each
                 return (
                   <MovieCard 
                     key={item.imdbID}
@@ -94,9 +116,12 @@ const App = () => {
               })
             }
             </div>
-            <div className="nominations">
+            <div className="list nominations">
+            { 
+              nominations.length > 0 ? <h6>Your Nomination List</h6> : null
+            }
             {
-              nominations.map((item) => {
+              nominations.map((item) => { // Maps through nomination array to dynamically load MovieCard component for each
                 return (
                   <MovieCard
                     key={item.imdbID}
@@ -121,8 +146,3 @@ const App = () => {
 
 export default App;
 
-// Poster: "https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg"
-// Title: "The Lord of the Rings: The Return of the King"
-// Type: "movie"
-// Year: "2003"
-// imdbID: "tt0167260"
