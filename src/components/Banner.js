@@ -7,7 +7,7 @@ const Banner = ({length, clearSearch}) => {
             length === 5 ? 
             <div>
                 <h4>Maximum nominations reached!</h4> 
-                <p>Review your list <a href="nomination-list" onClick={() => clearSearch()}>here</a> to make changes.</p>
+                <p>Review your list <span onClick={() => clearSearch()}>here</span> to make changes.</p>
             </div>
             : length === 1 ? <h4>{length} movie nominated. {5 - length} nominations left.</h4>
             : (5 - length) === 1 ? <h4>{length} movies nominated. {5 - length} nomination left.</h4> 
