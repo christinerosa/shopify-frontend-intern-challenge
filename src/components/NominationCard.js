@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const MovieCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
+const NominationCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
     return (
-        <div className="movie-details container">
+        <div>
         { // Loads default image if no poster is provided.
             poster === "N/A" ? <img src="../images/film-reel.jpg" alt='Poster'/> : <img src={poster} alt='Poster'/>
         }
-            <div className="overlay">
-                <p className="movie-title">{title}</p>
+            <div>
+                <p>{title}</p>
                 <h6>{year}</h6>
                 {
                     type === 'nominate' ?
@@ -22,12 +21,4 @@ const MovieCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
     )
 }
 
-
-MovieCard.propTypes = {
-    poster: PropTypes.string,
-    title: PropTypes.string,
-    year: PropTypes.string,
-    handleClick: PropTypes.func
-}
-
-export default MovieCard;
+export default NominationCard;

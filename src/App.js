@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import MovieCard from './components/MovieCard';
+import  { BiSearch } from 'react-icons/bi';
 require('dotenv').config();
 
 const App = () => {
@@ -73,14 +74,21 @@ const App = () => {
 
   return (
     <div>
-      <h1>The Shoppies</h1>
+      <div className="page-title">
+        <img className="logo" src="../images/shopify-logo-vector.png" alt="Shopify Logo"/>
+        <h1>The Shoppies</h1>
+      </div>
       <div className="search">
+        <BiSearch className="search-icon" size={24}/>
         <input type="text" placeholder="Search Movies" onKeyDown={handleSearch}/>
       </div>
-      <div className="banner">
+      <div className={nominations.length === 5 ? "banner banner-flash" : "banner"}>
       { // Keeps track of nomination count. 
         nominations.length === 5 ? 
-        <h4>Maximum nominations reached!</h4> 
+        <div>
+          <h4>Maximum nominations reached!</h4> 
+          <p>Review your list <a href="#nomination-list">here</a> to make changes.</p>
+        </div>
         : nominations.length === 1 ? <h4>{nominations.length} movie nominated. {5 - nominations.length} nominations left.</h4>
         : (5 - nominations.length) === 1 ? <h4>{nominations.length} movies nominated. {5 - nominations.length} nomination left.</h4> 
         : <h4>{nominations.length} movies nominated. {5 - nominations.length} nominations left.</h4> 
@@ -94,47 +102,51 @@ const App = () => {
           </Spinner> 
         </div> : (
           <div className="voting-section">
-            <div className="list results">
+            <div>
             { // Displays number of search results (if any)
               searchResults && searchResults.length > 0 ? <h6>{searchResults.length} Search Results</h6> : null 
             }
-            {
-              !searchResults ? 
-              <p>No Results Found.</p> :
-              searchResults.map((item) => { // Maps through results to dynamically load MovieCard component for each
-                return (
-                  <MovieCard 
-                    key={item.imdbID}
-                    poster={item.Poster}
-                    title={item.Title}
-                    year={item.Year}
-                    type='nominate'
-                    btnDisabled={disbaleNomination(item.imdbID)}
-                    handleClick={() => handleNomination(item)}
-                  />
-                )
-              })
-            }
+              <div className="results">
+              {
+                !searchResults ? 
+                <p>No Results Found.</p> :
+                searchResults.map((item) => { // Maps through results to dynamically load MovieCard component for each
+                  return (
+                    <MovieCard 
+                      key={item.imdbID}
+                      poster={item.Poster}
+                      title={item.Title}
+                      year={item.Year}
+                      type='nominate'
+                      btnDisabled={disbaleNomination(item.imdbID)}
+                      handleClick={() => handleNomination(item)}
+                    />
+                  )
+                })
+              }
+              </div>
             </div>
-            <div className="list nominations">
+            <div className="nomination-wrapper">
             { 
               nominations.length > 0 ? <h6>Your Nomination List</h6> : null
             }
-            {
-              nominations.map((item) => { // Maps through nomination array to dynamically load MovieCard component for each
-                return (
-                  <MovieCard
-                    key={item.imdbID}
-                    poster={item.Poster}
-                    title={item.Title}
-                    year={item.Year}
-                    type='remove'
-                    btnDisabled={false}
-                    handleClick={() => handleRemoveNomination(item)}
-                  />
-                )
-              })  
-            }
+              <div id="nomination-list" className="nominations">
+              {
+                nominations.map((item) => { // Maps through nomination array to dynamically load MovieCard component for each
+                  return (
+                    <MovieCard
+                      key={item.imdbID}
+                      poster={item.Poster}
+                      title={item.Title}
+                      year={item.Year}
+                      type='remove'
+                      btnDisabled={false}
+                      handleClick={() => handleRemoveNomination(item)}
+                    />
+                  )
+                })  
+              }
+              </div>
             </div>
           </div>
         )
