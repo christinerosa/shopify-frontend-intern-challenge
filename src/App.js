@@ -76,7 +76,9 @@ const App = () => {
   // Loads local storage into nominations array
   useEffect(() => {
     let currentNominations = JSON.parse(localStorage.getItem('nominations'));
-    setNominations(currentNominations);
+    if (currentNominations) {
+      setNominations(currentNominations);
+    }
   }, [])
 
   /****************** App ******************/
