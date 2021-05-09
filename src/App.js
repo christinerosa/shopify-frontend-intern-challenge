@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Spinner from 'react-bootstrap/Spinner';
 import MovieCard from './components/MovieCard';
+import SiteHeader from './components/SiteHeader';
+import Banner from './components/Banner';
+import LoadingSpinner from './components/LoadingSpinner';
 import  { BiSearch } from 'react-icons/bi';
 require('dotenv').config();
 
@@ -66,6 +68,7 @@ const App = () => {
     }
   }
 
+  // Clears search results.
   const clearSearch = () => {
     setSearchResults([]);
   }
@@ -76,36 +79,19 @@ const App = () => {
     setNominations(currentNominations);
   }, [])
 
+  /****************** App ******************/
   return (
     <div>
-      <div className="page-title">
-        <img className="logo" src="../images/shopify-logo-vector.png" alt="Shopify Logo"/>
-        <h1>The Shoppies</h1>
-      </div>
+      <SiteHeader />
       <div className="search">
         <BiSearch className="search-icon" size={24}/>
         <input type="text" placeholder="Search Movies" onKeyDown={handleSearch}/>
       </div>
-      <div className={nominations.length === 5 ? "banner banner-flash" : "banner"}>
-      { // Keeps track of nomination count. 
-        nominations.length === 5 ? 
-        <div>
-          <h4>Maximum nominations reached!</h4> 
-          <p>Review your list <a href="nomination-list" onClick={() => clearSearch()}>here</a> to make changes.</p>
-        </div>
-        : nominations.length === 1 ? <h4>{nominations.length} movie nominated. {5 - nominations.length} nominations left.</h4>
-        : (5 - nominations.length) === 1 ? <h4>{nominations.length} movies nominated. {5 - nominations.length} nomination left.</h4> 
-        : <h4>{nominations.length} movies nominated. {5 - nominations.length} nominations left.</h4> 
-      }
-      </div>
+      <Banner length={nominations.length} clearSearch={() => clearSearch()}/>
       { // Displays spinner while waiting for data to load, otherwise, data is displayed
         isLoading ? 
-        <div className="loading-spinner">
-          <Spinner animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-          </Spinner> 
-        </div> : (
-          <div className="voting-section">
+        <LoadingSpinner />
+        : <div className="voting-section">
             <div>
             { // Displays number of search results (if any)
               searchResults && searchResults.length > 0 ? <h6>{searchResults.length} Search Results</h6> : null 
@@ -153,7 +139,6 @@ const App = () => {
               </div>
             </div>
           </div>
-        )
       }
     </div>
     

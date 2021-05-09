@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+/*************** Global ***************/
 
 body {
     background-color: #202124;
@@ -21,21 +19,104 @@ a:hover {
     color: #5e8e3e;
 }
 
+/*************** Site Header ***************/
+.page-title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.page-title h1 {
+    padding-top: 10px;
+    margin-right: auto;
+}
+
+.logo {
+    width: 60px;
+    height: auto;
+    margin: auto 10px auto auto;
+}
+
+/*************** Search Bar ***************/
+.search {
+    text-align: center;
+}
+
 .search-icon {
     position: absolute;
     filter: invert(1);
     margin: 5px auto auto 5px
 }
 
-.movie-title {
-    font-size: 1vw;
-    font-weight: bold;
+.search input{
+    min-width: 60%;
+    padding: 3px 30px;
+    border-radius: 0.25rem;
+    margin-bottom: 20px;
+}
+
+.search input:focus {
+    outline: none;
+}
+
+/*************** Banner ***************/
+.banner {
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #202124;
+    padding: 10px;
+    z-index: 999;
+}
+
+.banner p {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.banner-flash {
+    animation: blinker 1.5s linear;
+}
+
+@keyframes blinker {
+    50% {
+        background-color: #95bf46;
+    }
+}
+
+/*************** Search Results ***************/
+.loading-spinner {
+    text-align: center;
+}
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
 .container {
     position: relative;
     padding: 0;
     margin: 0;
+}
+
+.movie-details {
+    display: flex;
+    width: 12rem;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.movie-details img {
+    width: 100%;
+    height: auto;
+}
+
+.movie-title {
+    font-size: 1vw;
+    font-weight: bold;
 }
 
 .overlay {
@@ -59,63 +140,18 @@ a:hover {
     opacity: 1;
 }
 
-.page-title {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.page-title h1 {
-    padding-top: 10px;
-    margin-right: auto;
-}
-
-.logo {
-    width: 60px;
-    height: auto;
-    margin: auto 10px auto auto;
-}
-
-.search {
-    text-align: center;
-}
-
-.search input{
-    min-width: 60%;
-    padding: 3px 30px;
-    border-radius: 0.25rem;
-    margin-bottom: 20px;
-}
-
-.search input:focus {
-    outline: none;
-}
-
-.loading-spinner {
-    text-align: center;
-}
-
-.results {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-
-.movie-details {
-    display: flex;
-    width: 12rem;
-    margin-right: 20px;
-    margin-bottom: 20px;
-}
-
-.movie-details img {
-    width: 100%;
-    height: auto;
-}
-
+/*************** Nominations ***************/
 .nominations {
     display: flex;
     flex-wrap: wrap;
+}
+
+.nominate-btn {
+    background-color: #95bf46;
+}
+
+.remove-btn {
+    background-color: red;
 }
 
 .nominate-btn, .remove-btn {
@@ -128,14 +164,6 @@ a:hover {
     width: 150px;
     color: white;
     font-weight: bold;
-}
-
-.nominate-btn {
-    background-color: #95bf46;
-}
-
-.remove-btn {
-    background-color: red;
 }
 
 .nominate-btn:hover, .nominate-btn:disabled {
@@ -152,33 +180,7 @@ a:hover {
     color: black;
 }
 
-.banner {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    right: 0;
-    left: 0;
-    background-color: #202124;
-    padding: 10px;
-    z-index: 999;
-}
-
-.banner p {
-    text-align: center;
-    margin-bottom: 0;
-}
-
-.banner-flash {
-    animation: blinker 1.5s linear;
-}
-  
-@keyframes blinker {
-    50% {
-        background-color: #95bf46;
-    }
-}
-
-
+/*************** Media Queries ***************/
 @media only screen and (max-width: 520px) {
     .voting-section {
         flex-wrap: wrap;
@@ -195,6 +197,10 @@ a:hover {
         margin-bottom: 0px;
     }
 
+    .overlay {
+        padding-top: 20px;
+    }
+
     .nomination-wrapper {
         margin: auto;
         height: 100vh;
@@ -205,10 +211,6 @@ a:hover {
         left: 13%;
         width: 75%;
         font-size: 4vw;
-    }
-
-    .overlay {
-        padding-top: 20px;
     }
 }
 
