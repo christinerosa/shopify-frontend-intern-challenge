@@ -17,7 +17,7 @@ const App = () => {
   /*************** API Request ***************/
   const getData = async (searchValue) => {
     setIsLoading(true);
-    let data = await axios.get(`http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&type=movie&s=${searchValue}`);
+    let data = await axios.get(`https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&type=movie&s=${searchValue}`);
     setSearchResults(data.data.Search);
     setIsLoading(false);
   }
