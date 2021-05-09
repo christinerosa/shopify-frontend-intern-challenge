@@ -4,7 +4,7 @@
 **Demo [here](https://focused-hermann-fb5dff.netlify.app/).**
 - Built in React - first completed project using this framework!
 - Axios used to consume the API.
-- If you'd like to run the project locally, clone this repositor and enter the following in your code editor terminal:
+- If you'd like to run the project locally, clone this repository and enter the following in your code editor terminal:
 
   `npm install`
 
