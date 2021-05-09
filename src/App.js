@@ -66,6 +66,10 @@ const App = () => {
     }
   }
 
+  const clearSearch = () => {
+    setSearchResults([]);
+  }
+
   // Loads local storage into nominations array
   useEffect(() => {
     let currentNominations = JSON.parse(localStorage.getItem('nominations'));
@@ -87,7 +91,7 @@ const App = () => {
         nominations.length === 5 ? 
         <div>
           <h4>Maximum nominations reached!</h4> 
-          <p>Review your list <a href="#nomination-list">here</a> to make changes.</p>
+          <p>Review your list <a href="nomination-list" onClick={() => clearSearch()}>here</a> to make changes.</p>
         </div>
         : nominations.length === 1 ? <h4>{nominations.length} movie nominated. {5 - nominations.length} nominations left.</h4>
         : (5 - nominations.length) === 1 ? <h4>{nominations.length} movies nominated. {5 - nominations.length} nomination left.</h4> 

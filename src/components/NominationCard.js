@@ -2,7 +2,7 @@ import React from 'react';
 
 const NominationCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
     return (
-        <div>
+        <div className="nomination-details">
         { // Loads default image if no poster is provided.
             poster === "N/A" ? <img src="../images/film-reel.jpg" alt='Poster'/> : <img src={poster} alt='Poster'/>
         }

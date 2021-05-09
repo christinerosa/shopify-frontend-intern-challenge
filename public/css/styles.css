@@ -197,6 +197,7 @@ a:hover {
 
     .nomination-wrapper {
         margin: auto;
+        height: 100vh;
     }
 
     .nominate-btn, .remove-btn {

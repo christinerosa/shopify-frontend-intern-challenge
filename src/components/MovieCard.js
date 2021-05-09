@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const MovieCard = ({poster, title, year, type, btnDisabled, handleClick}) => {
+const MovieCard = ({poster, title, year, type, size, btnDisabled, handleClick}) => {
     return (
-        <div className="movie-details container">
+        <div className= "movie-details container" >
         { // Loads default image if no poster is provided.
             poster === "N/A" ? <img src="../images/film-reel.jpg" alt='Poster'/> : <img src={poster} alt='Poster'/>
         }
